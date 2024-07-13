@@ -26,7 +26,7 @@ jobs:
         with:
           go-version: '1.22.5'
       - name: Build
-        run: go build -v ./...
+        run: go build -o simpleHTTP ./simpleHTTP.go
       - name: Test
         run: go test -v ./...
 
