@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: go build -o simpleHTTP ./simpleHTTP.go
       - name: Test
-        run: go test -o simpleHTTP
+        run: go test .
 
   lint:
     runs-on: ubuntu-latest
@@ -41,6 +41,3 @@ jobs:
           cache: false
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
-        with:
-          version: v1.56.0
-          args: --timeout 3m --config .golangci.yaml
