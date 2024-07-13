@@ -9,12 +9,39 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    env:
-      GO111MODULE: on
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
+
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
         with:
           args: ./...
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+      - name: Build
+        run: go build -v ./...
+      - name: Test
+        run: go test -v ./...
+
+  lint:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+          cache: false
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.56.0
+          args: --timeout 3m --config .golangci.yaml
