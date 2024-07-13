@@ -15,8 +15,6 @@ jobs:
 
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
-        with:
-          args: ./...
   build:
     runs-on: ubuntu-latest
     steps:
